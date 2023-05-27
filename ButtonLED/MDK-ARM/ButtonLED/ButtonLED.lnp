@@ -1,0 +1,26 @@
+--cpu=Cortex-M4.fp.sp
+"buttonled\startup_stm32f427xx.o"
+"buttonled\main.o"
+"buttonled\gpio.o"
+"buttonled\stm32f4xx_it.o"
+"buttonled\stm32f4xx_hal_msp.o"
+"buttonled\stm32f4xx_hal_tim.o"
+"buttonled\stm32f4xx_hal_tim_ex.o"
+"buttonled\stm32f4xx_hal_rcc.o"
+"buttonled\stm32f4xx_hal_rcc_ex.o"
+"buttonled\stm32f4xx_hal_flash.o"
+"buttonled\stm32f4xx_hal_flash_ex.o"
+"buttonled\stm32f4xx_hal_flash_ramfunc.o"
+"buttonled\stm32f4xx_hal_gpio.o"
+"buttonled\stm32f4xx_hal_dma_ex.o"
+"buttonled\stm32f4xx_hal_dma.o"
+"buttonled\stm32f4xx_hal_pwr.o"
+"buttonled\stm32f4xx_hal_pwr_ex.o"
+"buttonled\stm32f4xx_hal_cortex.o"
+"buttonled\stm32f4xx_hal.o"
+"buttonled\stm32f4xx_hal_exti.o"
+"buttonled\system_stm32f4xx.o"
+--strict --scatter "ButtonLED\ButtonLED.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "ButtonLED.map" -o ButtonLED\ButtonLED.axf
