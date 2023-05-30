@@ -131,7 +131,7 @@ __weak void LEDREDfunc(void const * argument)
   for(;;)
   {
     HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_11);
-    osDelay(200);
+    osDelay(500);
   }
   /* USER CODE END LEDREDfunc */
 }
@@ -150,7 +150,7 @@ __weak void LEDGREENfunc(void const * argument)
   for(;;)
   {
     HAL_GPIO_TogglePin(GPIOF,GPIO_PIN_14);
-    osDelay(100);
+    osDelay(200);
   }
   /* USER CODE END LEDGREENfunc */
 }
