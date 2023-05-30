@@ -33,7 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define RGB_FLOW_COLOR_CHANGE_TIME 500;
+#define RGB_FLOW_COLOR_CHANGE_TIME 500;//呼吸灯每次改变的总时间
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -44,14 +44,14 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t RGB_flow_color[4]={0x0808,0xFFFF,0x0808,0x0000};
+uint16_t RGB_flow_color[4]={0x0808,0xFFFF,0x0808,0x0000};//分别设置4个预设值来控制RGB的状态
 uint8_t i=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void aRGB_led_show(uint16_t aRGB);
+void aRGB_led_show(uint16_t aRGB);//通过aRGB来显示RGB灯光
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -89,8 +89,8 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start(&htim1);
-  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
+  HAL_TIM_Base_Start(&htim1);//启用时钟
+  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);//启用PWM
   
   /* USER CODE END 2 */
 
@@ -99,21 +99,21 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    float alpha=((RGB_flow_color[i]&0xFF00)>>16);
-    float red=((RGB_flow_color[i]&0x00FF)>>0);
+    float alpha=((RGB_flow_color[i]&0xFF00)>>16);//将这次状态的alpha提取出来
+    float red=((RGB_flow_color[i]&0x00FF)>>0);//将这次状态的red值提取出来
     
-    float delta_alpha=((RGB_flow_color[i+1]&0xFF00)>>16)-((RGB_flow_color[i]&0x00FF)>>16);
-    float delta_red=((RGB_flow_color[i+1]&0xFF00)>>0)-((RGB_flow_color[i]&0x00FF)>>0);
+    float delta_alpha=((RGB_flow_color[i+1]&0xFF00)>>16)-((RGB_flow_color[i]&0x00FF)>>16);//这次循环需要改变的alpha
+    float delta_red=((RGB_flow_color[i+1]&0xFF00)>>0)-((RGB_flow_color[i]&0x00FF)>>0);//这次需要改变的red亮度
       
-    delta_alpha/=RGB_FLOW_COLOR_CHANGE_TIME;
+    delta_alpha/=RGB_FLOW_COLOR_CHANGE_TIME;//每一次循环需要改变的量
     delta_red/=RGB_FLOW_COLOR_CHANGE_TIME;
       
     for(uint16_t j=0;j<500;j++)
       {
-        alpha+=delta_alpha;
-        red+=delta_red;
+        alpha+=delta_alpha;//这次循环的alpha值
+        red+=delta_red;//这次循环的red值
         
-        uint16_t aRGB=((uint16_t)(alpha))<<16|((uint16_t)(red))<<0;
+        uint16_t aRGB=((uint16_t)(alpha))<<16|((uint16_t)(red))<<0;//通过左移运算符来组成需要的16位aRGB值
         aRGB_led_show(aRGB);
         HAL_Delay(1);
       }
@@ -172,7 +172,7 @@ void aRGB_led_show(uint16_t aRGB){
     alpha=(aRGB&0xFF00)>>8;
     red=((aRGB&0x00FF)>>0)*alpha;
     
-    __HAL_TIM_SetCompare(&htim1,TIM_CHANNEL_2,red);
+    __HAL_TIM_SetCompare(&htim1,TIM_CHANNEL_2,red);//设置红灯的PWM值来控制亮度实现呼吸的效果
 }
 /* USER CODE END 4 */
 
